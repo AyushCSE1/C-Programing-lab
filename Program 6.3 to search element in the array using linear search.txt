@@ -1,0 +1,19 @@
+#include<stdio.h>
+int main(){
+    int arr[]={4,2,3,6,5,9};
+    int target;
+    printf("select the target:");
+    scanf("%d",target);
+    int c=0;
+    for(int i=1;i<6;i++){
+        if(arr[i]==target)
+        c++;
+    }
+    if(c==1){
+        printf("no");
+    }
+    else if(c==0){
+        printf("yes");
+    }
+    return 0;
+}
