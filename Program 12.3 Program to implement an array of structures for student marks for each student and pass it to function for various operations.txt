@@ -1,0 +1,93 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+// Defining structure for Student
+typedef struct {
+    char name[50];
+    int math;
+    int english;
+    int science;
+    int total;
+} Student;
+
+// Function to print details of a Student
+void print_student_info(Student *student) {
+    printf("Name: %s\n", student->name);
+    printf("Math: %d\n", student->math);
+    printf("English: %d\n", student->english);
+    printf("Science: %d\n", student->science);
+    printf("Total Marks: %d\n", student->total);
+}
+
+// Function to add a new Student to the array
+void add_student(Student **students, int *size) {
+    Student *new_student = (Student *) malloc(sizeof(Student));
+    printf("Enter the name of the new student: ");
+    scanf("%s", new_student->name);
+    printf("Enter the marks in math, english, and science for the new student: ");
+    scanf("%d %d %d", &new_student->math, &new_student->english, &new_student->science);
+    new_student->total = new_student->math + new_student->english + new_student->science;
+    students[*size] = new_student;
+    (*size)++;
+}
+
+// Function to display details of all Students
+void display_students(Student **students, int size) {
+    for (int i = 0; i < size; i++) {
+        print_student_info(students[i]);
+    }
+}
+
+// Function to update marks of a specific Student
+void update_student(Student **students, int size) {
+    char name[50];
+    printf("Enter the name of the student to update: ");
+    scanf("%s", name);
+    for (int i = 0; i < size; i++) {
+        if (strcmp(students[i]->name, name) == 0) {
+            printf("Enter the updated marks in math, english, and science for the student: ");
+            scanf("%d %d %d", &students[i]->math, &students[i]->english, &students[i]->science);
+            students[i]->total = students[i]->math + students[i]->english + students[i]->science;
+            printf("Marks updated for the student.\n");
+            break;
+        }
+    }
+}
+
+// Function to delete a specific Student from the array
+void delete_student(Student **students, int *size) {
+    char name[50];
+    printf("Enter the name of the student to delete: ");
+    scanf("%s", name);
+    for (int i = 0; i < *size; i++) {
+        if (strcmp(students[i]->name, name) == 0) {
+            free(students[i]);
+            for (int j = i; j < *size - 1; j++) {
+                students[j] = students[j + 1];
+            }
+            (*size)--;
+            printf("Student deleted from the array.\n");
+            break;
+        }
+    }
+}
+
+int main() {
+    Student **students = (Student **) malloc(sizeof(Student *));
+    int size = 0;
+
+    add_student(students, &size);
+    display_students(students, size);
+    update_student(students, size);
+    display_students(students, size);
+    delete_student(students, &size);
+    display_students(students, size);
+
+    for (int i = 0; i < size; i++) {
+        free(students[i]);
+    }
+    free(students);
+
+    return 0;
+}
